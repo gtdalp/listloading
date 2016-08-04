@@ -81,8 +81,8 @@ listloading.evt('li', 'click', function (dom) {
 });
 ```
 效果图
-(demo1.png)
-(demo2.png)
+![demo1.png](demo1.png)
+![demo2.png](demo2.png)
 
 
 ###4、API
