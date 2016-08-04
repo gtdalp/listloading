@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>listLoading</title>
+<link rel="stylesheet" type="text/css" href="../src/css/base.css" />
+<link rel="stylesheet" type="text/css" href="listloading.css" />
+<script src="../src/jslib/zepto.min.js"></script>
+<script src="../src/jslib/iscroll.js"></script>
+<script src="../build/listloading.min.js"></script>
+<script>
+$(function () {
+
+    var m = 3;
+    var n = 0;
+
+    // 创建iscroll之前必须要先设置父元素的高度，否则无法拖动iscroll
+    $('#listloading').height($(window).height());
+
+    // 模板
+    var createHtml = function(){
+        var __html = '';
+        for(var i = 0; i < 15; i++){
+            var now = new Date().getTime();
+            now = new Date(now + i*1000000);
+
+            __html += '<li><span class="icon"></span><p class="title"><time class="r">' + now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds() + '</time>listloading' + (n++) + '</p><p class="text">移动端上拉下拉刷新组件...</li>';
+        }
+        return __html;
+    }
+    // 选择器必须是ID 因为要用到发布订阅做标识
+    var listloading = $('#listloading').listloading({
+        disableTime: true,  // 是否需要显示时间
+        pullUpAction : function(cb){   //上拉加载更多
+            m--;
+            var flg = false;
+            var __html = createHtml();
+            if(m < 1){
+                flg = true;
+            }else{
+                $('#order-list').append(__html);
+            }
+            // 数据加载完毕需要返回 end为true则为全部数据加载完毕
+            cb(flg);
+            
+        },
+        pullDownAction : function(cb){  //下拉刷新
+            m = 3;
+            n = 0;
+            var __html = createHtml();
+            $('#order-list').html(__html);
+            // 执行完执行方法之后必须执行回调 回调的作用是通知默认加载已经全部执行完毕，程序需要去创建iscroll
+            cb();
+        },
+        // iscroll的API 
+        iscrollOptions: {
+            //
+        }
+    });
+    // 点击事件
+    listloading.evt('li', 'click', function (dom) {
+        // dom.remove();
+        // $('#order-list').append(createHtml());
+        // listloading.refresh();
+    });
+    
+});
+</script>
+</head>
+<body>
+<style type="text/css">
+body{
+    background:#E6E6E6;
+}
+#order-list>li{
+    height:50px;
+    line-height:24px;
+    padding:10px 15px 10px 10px;
+    margin:10px;
+    border-radius:3px;
+    box-shadow:1px 1px 2px #ccc;
+    background:#fff;
+}
+#order-list>li>span.icon{
+    float:left;
+    width:50px;
+    height:50px;
+    line-height:50px;
+    margin-right:10px;
+    border-radius:50%;
+    background:#4694CE;
+    text-align:center;
+}
+#order-list>li:nth-child(2n)>span.icon{
+    background:#EF8C2A;
+}
+#order-list>li:nth-child(3n)>span.icon{
+    background:#42B573;
+}
+#order-list>li:nth-child(4n)>span.icon{
+    background:#EF8C2A;
+}
+#order-list>li:nth-child(5n)>span.icon{
+    background:#73CED6;
+}
+#order-list>li>span.icon::before{
+    font-family:'iconfont';
+    font-size:26px;
+    color:#fff;
+    content:'\3456';
+}
+#order-list>li:nth-child(2n)>span.icon::before{
+    content:'\3453';
+}
+#order-list>li:nth-child(3n)>span.icon::before{
+    content:'\3460';
+}
+#order-list>li:nth-child(4n)>span.icon::before{
+    content:'\3461';
+}
+#order-list>li:nth-child(5n)>span.icon::before{
+    content:'\3503';
+}
+
+#order-list>li>.title{
+    font-size:16px;
+    color:#292929;
+}
+#order-list>li>.title>time.r{
+    color:#666;
+    font-size:12px;
+}
+#order-list>li>.text{
+    color:#7B7B7B;
+}
+</style>
+<div id="listloading">
+    <div>
+        <ul id="order-list"></ul>
+    </div>
+</div>
+</body>
+</html>
