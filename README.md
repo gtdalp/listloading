@@ -27,12 +27,13 @@ npm install -g listloading
 
 ###3、调用
 ```javascript
-var m = 3, n = 0;
-
+var m = 3;
+var n = 0;
+var hei = $(window).height();
 // 创建iscroll之前必须要先设置父元素的高度，否则无法拖动iscroll
-$('#listloading').height($(window).height());
+$('#listloading, .listloadingClass').height(hei);
 
-// 模板或者ajax请求方法
+// 模板
 var createHtml = function(){
     var __html = '';
     for(var i = 0; i < 15; i++){
@@ -43,41 +44,64 @@ var createHtml = function(){
     }
     return __html;
 }
+// demo
+// var listloading = $('#listloading').listloading({
+//     disableTime: true,  // 是否需要显示时间
+//     pullUpAction : function(cb){   //上拉加载更多
+//         m--;
+//         var flg = false;
+//         var __html = createHtml();
+//         if(m < 1){
+//             flg = true;
+//         }else{
+//             $('#order-list').append(__html);
+//         }
+//         // 数据加载完毕需要返回 end为true则为全部数据加载完毕
+//         cb(flg);
+        
+//     },
+//     pullDownAction : function(cb){  //下拉刷新
+//         m = 3;
+//         var __html = createHtml();
+//         $('#order-list').html(__html);
+//         // 执行完执行方法之后必须执行回调 回调的作用是通知默认加载已经全部执行完毕，程序需要去创建iscroll
+//         cb();
+//     },
+//     // iscroll的API 
+//     iscrollOptions: {
+//         //
+//     }
+// });
+// // 点击事件
+// listloading.evt('li', 'click', function (dom) {
+//     // dom.remove();
+//     // $('#order-list').append(createHtml());
+//     // listloading.refresh();
+// });
 
-// 选择器必须是ID 因为要用到发布订阅做标识
-var listloading = $('#listloading').listloading({
-    disableTime: true,  // 是否需要显示时间
+// demo
+var n = 3;
+var listloadingClass = $('.listloadingClass').listloading({
     pullUpAction : function(cb){   //上拉加载更多
-        m--;
+        n--;
         var flg = false;
         var __html = createHtml();
-        if(m < 1){
+        if(n < 1){
             flg = true;
         }else{
-            $('#order-list').append(__html);
+            $('#listloadingClass-order-list').append(__html);
         }
         // 数据加载完毕需要返回 end为true则为全部数据加载完毕
         cb(flg);
         
     },
     pullDownAction : function(cb){  //下拉刷新
-        m = 3;
-        n = 0;
+        n = 3;
         var __html = createHtml();
-        $('#order-list').html(__html);
+        $('#listloadingClass-order-list').html(__html);
         // 执行完执行方法之后必须执行回调 回调的作用是通知默认加载已经全部执行完毕，程序需要去创建iscroll
         cb();
-    },
-    // iscroll的API 
-    iscrollOptions: {
-        //
     }
-});
-// 点击事件 因为iscroll阻止了冒泡，它也建议自己写点击方法，如果开启preventDefault为false这行就是解决onclick失效问题， 但是开启这个值在微信下面拖动会有问题  滑动结束之后触发不到scrollend，所以我自己内嵌了一个事件方法
-listloading.evt('li', 'click', function (dom) {
-    // dom.remove();
-    // $('#order-list').append(createHtml());
-    // listloading.refresh();
 });
 ```
 效果图

@@ -1,7 +1,7 @@
 /**
  * listloading
  * xisa
- * 1.0.0(2014-2016)
+ * 0.0.3(2014-2016)
  */
  /*
  	依赖iscroll 
@@ -79,7 +79,13 @@
     };
     function ListLoading(element, options) {
     	this.ele = $(element);
-    	this.id = $(element).attr('id');
+    	var id = $(element).attr('id');
+    	// 如果没有ID 则自动创建一个id
+    	if (!id) {
+            id = 'listLoading' + Math.random().toString().replace('0.', '');
+            $(element).attr('id', id);
+    	}
+    	this.id = id;
     	this.children = $($(element).get(0).children[0]);
     	this.pullUpId = 'pullUp-' + this.id;
 		this.pullDownId = 'pullDown-' + this.id;

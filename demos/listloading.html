@@ -16,9 +16,9 @@ $(function () {
 
     var m = 3;
     var n = 0;
-
+    var hei = $(window).height();
     // 创建iscroll之前必须要先设置父元素的高度，否则无法拖动iscroll
-    $('#listloading').height($(window).height());
+    $('#listloading, .listloadingClass').height(hei);
 
     // 模板
     var createHtml = function(){
@@ -31,40 +31,64 @@ $(function () {
         }
         return __html;
     }
-    // 选择器必须是ID 因为要用到发布订阅做标识
-    var listloading = $('#listloading').listloading({
-        disableTime: true,  // 是否需要显示时间
+    // demo
+    // var listloading = $('#listloading').listloading({
+    //     disableTime: true,  // 是否需要显示时间
+    //     pullUpAction : function(cb){   //上拉加载更多
+    //         m--;
+    //         var flg = false;
+    //         var __html = createHtml();
+    //         if(m < 1){
+    //             flg = true;
+    //         }else{
+    //             $('#order-list').append(__html);
+    //         }
+    //         // 数据加载完毕需要返回 end为true则为全部数据加载完毕
+    //         cb(flg);
+            
+    //     },
+    //     pullDownAction : function(cb){  //下拉刷新
+    //         m = 3;
+    //         var __html = createHtml();
+    //         $('#order-list').html(__html);
+    //         // 执行完执行方法之后必须执行回调 回调的作用是通知默认加载已经全部执行完毕，程序需要去创建iscroll
+    //         cb();
+    //     },
+    //     // iscroll的API 
+    //     iscrollOptions: {
+    //         //
+    //     }
+    // });
+    // // 点击事件
+    // listloading.evt('li', 'click', function (dom) {
+    //     // dom.remove();
+    //     // $('#order-list').append(createHtml());
+    //     // listloading.refresh();
+    // });
+
+    // demo
+    var n = 3;
+    var listloadingClass = $('.listloadingClass').listloading({
         pullUpAction : function(cb){   //上拉加载更多
-            m--;
+            n--;
             var flg = false;
             var __html = createHtml();
-            if(m < 1){
+            if(n < 1){
                 flg = true;
             }else{
-                $('#order-list').append(__html);
+                $('#listloadingClass-order-list').append(__html);
             }
             // 数据加载完毕需要返回 end为true则为全部数据加载完毕
             cb(flg);
             
         },
         pullDownAction : function(cb){  //下拉刷新
-            m = 3;
-            n = 0;
+            n = 3;
             var __html = createHtml();
-            $('#order-list').html(__html);
+            $('#listloadingClass-order-list').html(__html);
             // 执行完执行方法之后必须执行回调 回调的作用是通知默认加载已经全部执行完毕，程序需要去创建iscroll
             cb();
-        },
-        // iscroll的API 
-        iscrollOptions: {
-            //
         }
-    });
-    // 点击事件
-    listloading.evt('li', 'click', function (dom) {
-        // dom.remove();
-        // $('#order-list').append(createHtml());
-        // listloading.refresh();
     });
     
 });
@@ -75,7 +99,10 @@ $(function () {
 body{
     background:#E6E6E6;
 }
-#order-list>li{
+#listloading{
+    overflow:hidden;
+}
+.order-list>li{
     height:50px;
     line-height:24px;
     padding:10px 15px 10px 10px;
@@ -84,7 +111,7 @@ body{
     box-shadow:1px 1px 2px #ccc;
     background:#fff;
 }
-#order-list>li>span.icon{
+.order-list>li>span.icon{
     float:left;
     width:50px;
     height:50px;
@@ -94,52 +121,60 @@ body{
     background:#4694CE;
     text-align:center;
 }
-#order-list>li:nth-child(2n)>span.icon{
+.order-list>li:nth-child(2n)>span.icon{
     background:#EF8C2A;
 }
-#order-list>li:nth-child(3n)>span.icon{
+.order-list>li:nth-child(3n)>span.icon{
     background:#42B573;
 }
-#order-list>li:nth-child(4n)>span.icon{
+.order-list>li:nth-child(4n)>span.icon{
     background:#EF8C2A;
 }
-#order-list>li:nth-child(5n)>span.icon{
+.order-list>li:nth-child(5n)>span.icon{
     background:#73CED6;
 }
-#order-list>li>span.icon::before{
+.order-list>li>span.icon::before{
     font-family:'iconfont';
     font-size:26px;
     color:#fff;
     content:'\3456';
 }
-#order-list>li:nth-child(2n)>span.icon::before{
+.order-list>li:nth-child(2n)>span.icon::before{
     content:'\3453';
 }
-#order-list>li:nth-child(3n)>span.icon::before{
+.order-list>li:nth-child(3n)>span.icon::before{
     content:'\3460';
 }
-#order-list>li:nth-child(4n)>span.icon::before{
+.order-list>li:nth-child(4n)>span.icon::before{
     content:'\3461';
 }
-#order-list>li:nth-child(5n)>span.icon::before{
+.order-list>li:nth-child(5n)>span.icon::before{
     content:'\3503';
 }
 
-#order-list>li>.title{
+.order-list>li>.title{
     font-size:16px;
     color:#292929;
 }
-#order-list>li>.title>time.r{
+.order-list>li>.title>time.r{
     color:#666;
     font-size:12px;
 }
-#order-list>li>.text{
+.order-list>li>.text{
     color:#7B7B7B;
 }
+.listloadingClass{
+    overflow:hidden;
+}
 </style>
-<div id="listloading">
+<!-- <div id="listloading">
     <div>
-        <ul id="order-list"></ul>
+        <ul id="order-list" class="order-list"></ul>
+    </div>
+</div> -->
+<div class="listloadingClass">
+    <div>
+        <ul id="listloadingClass-order-list" class="order-list"></ul>
     </div>
 </div>
 </body>
