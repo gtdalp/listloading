@@ -24,7 +24,7 @@ npm install -g listloading
 ```javascript
 <script src="../src/jslib/zepto.min.js"></script>
 <script src="../src/jslib/iscroll.js"></script>
-<script src="../build/listloading.js"></script>
+<script src="../build/listloading.min.js"></script>
 ```
 
 ###3、调用
@@ -62,7 +62,11 @@ var createHtml = function(){
 //         cb(flg);
         
 //     },
-//     pullDownAction : function(cb){  //下拉刷新
+//     pullDownAction : function(cb, flag){  //下拉刷新
+//         flag 为true 第一次加载
+//         if (flag) {
+//             // dosomething...
+//         }
 //         m = 3;
 //         var __html = createHtml();
 //         $('#order-list').html(__html);
@@ -82,13 +86,13 @@ var createHtml = function(){
 // });
 
 // demo
-var n = 3;
+var k = 3;
 var listloadingClass = $('.listloadingClass').listloading({
     pullUpAction : function(cb){   //上拉加载更多
-        n--;
+        k--;
         var flg = false;
         var __html = createHtml();
-        if(n < 1){
+        if(k < 1){
             flg = true;
         }else{
             $('#listloadingClass-order-list').append(__html);
@@ -97,8 +101,12 @@ var listloadingClass = $('.listloadingClass').listloading({
         cb(flg);
         
     },
-    pullDownAction : function(cb){  //下拉刷新
-        n = 3;
+    pullDownAction : function(cb, flag){  //下拉刷新
+        // flag 为true 第一次加载
+        if (flag) {
+            // dosomething...
+        }
+        k = 3;
         var __html = createHtml();
         $('#listloadingClass-order-list').html(__html);
         // 执行完执行方法之后必须执行回调 回调的作用是通知默认加载已经全部执行完毕，程序需要去创建iscroll
@@ -117,21 +125,24 @@ var listloadingClass = $('.listloadingClass').listloading({
 初始化会执行一次，主要是创建iscroll，之后每次下拉刷新结束之后执行，当在方法里面执行完毕你的程序之后需要执行一个回调函数，告知已经全部程序执行完毕，listloading就会自动去调用iscroll的刷新功能，回调不需要传参。
 
 ```javascript
-options.pullDownAction = function(cb){  //下拉刷新
-    .....
+options.pullDownAction = function(cb, flag){  // 下拉刷新
+    // flag 为true 第一次加载
+    if (flag) {
+        // dosomething...
+    }
     // 执行完执行方法之后必须执行回调
     cb();
 }
 ```
 
 
-####4.2 上拉刷新
-每次上拉刷新结束之后执行，同样的在执行完你的程序之后需要执行一个回调函数，回调里面需要回调一个布尔值，如果为true则怎么已经全部加载完毕，就已经拉到底了。
+####4.2 上拉加载更多
+每次上拉加载更多结束之后执行，同样的在执行完你的程序之后需要执行一个回调函数，回调里面需要回调一个布尔值，如果为true则怎么已经全部加载完毕，就已经拉到底了。
 
 ```javascript
-options.pullUpAction = function(cb){  //下拉刷新
+options.pullUpAction = function(cb){  // 上拉加载更多
     .....
-    // 执行完执行方法之后必须执行回调 true为下拉到底
+    // 执行完执行方法之后必须执行回调 true为上拉到底
     cb(true);
 }
 ```
@@ -155,10 +166,10 @@ true下拉显示时间，距离上次刷新的时间
 options.disableTime = true
 ```
 
-####4.6 上拉刷新文字
+####4.6 上拉加载更多文字
 
 ```javascript
-options.upLoadmoretxt = '上拉刷新文字';  // 里面可以放html标签
+options.upLoadmoretxt = '上拉加载更多文字';  // 里面可以放html标签
 ```
 
 

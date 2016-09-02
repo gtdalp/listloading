@@ -67,13 +67,13 @@ $(function () {
     // });
 
     // demo
-    var n = 3;
+    var k = 3;
     var listloadingClass = $('.listloadingClass').listloading({
         pullUpAction : function(cb){   //上拉加载更多
-            n--;
+            k--;
             var flg = false;
             var __html = createHtml();
-            if(n < 1){
+            if(k < 1){
                 flg = true;
             }else{
                 $('#listloadingClass-order-list').append(__html);
@@ -82,15 +82,18 @@ $(function () {
             cb(flg);
             
         },
-        pullDownAction : function(cb){  //下拉刷新
-            n = 3;
+        pullDownAction : function(cb, flag){  //下拉刷新
+            // flag 为true 第一次加载
+            if (flag) {
+                // dosomething...
+            }
+            k = 3;
             var __html = createHtml();
             $('#listloadingClass-order-list').html(__html);
             // 执行完执行方法之后必须执行回调 回调的作用是通知默认加载已经全部执行完毕，程序需要去创建iscroll
             cb();
         }
     });
-    
 });
 </script>
 </head>
