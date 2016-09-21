@@ -92,7 +92,7 @@
         this.init(options);
     }
     ListLoading.prototype = {
-        version: '1.0.0',
+        version: '1.0.1',
         // 初始化
         init: function (options) {
             this.options = {};
