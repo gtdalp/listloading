@@ -1,14 +1,23 @@
-/**
+﻿/**
  * listloading
  * xisa
- * 1.0.1(2014-2016)
+ * 1.1.0(2014-2016)
  */
  /*
     依赖iscroll 
     底层库使用 Zepto 或者 jQuery
  */
-;(function(){
+;(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define([], factory);
+  } else if (typeof exports === 'object') {
+    module.exports = factory();
+  } else {
+    root.Listloading = factory();
+  }
+}(this, function() {
     'use strict';
+
     // 发布订阅
     var publishEvents = (function () {
         var listen,log,obj, one, remove, trigger, __this;
@@ -46,6 +55,7 @@
             trigger: trigger
         }
     })();
+
     // 获取几分钟前、几小时前、几天前等时间差
     function timeDifference (publishTime) {
         var nowTime = Date.parse(new Date());
@@ -73,11 +83,8 @@
             return s.getFullYear() + '年' + (s.getMonth() + 1) + "月" + s.getDate() + "日 " + s.getHours() + ':' + ':' + s.getMinutes() + ':' + s.getSeconds();
         }
     }
-    // listloading插件
-    $.fn.listloading = function (options) {
-        return new ListLoading(this, options);
-    };
-    function ListLoading(element, options) {
+
+    function Listloading(element, options) {
         this.ele = $(element);
         var id = $(element).attr('id');
         // 如果没有ID 则自动创建一个id
@@ -87,12 +94,19 @@
         }
         this.id = id;
         this.children = $($(element).get(0).children[0]);
+
+        // 如果不配置下拉刷新方法或者直接不传配置 则直接创建iscroll (v1.1.0)
+        if (typeof options !== 'object' || !$.isFunction(options.pullDownAction) ) {
+            this.iscroll = new IScroll('#' + id, options.iscrollOptions);
+            return;
+        }
         this.pullUpId = 'pullUp-' + this.id;
         this.pullDownId = 'pullDown-' + this.id;
         this.init(options);
     }
-    ListLoading.prototype = {
-        version: '1.0.1',
+
+    Listloading.prototype = {
+        version: '1.1.0',
         // 初始化
         init: function (options) {
             this.options = {};
@@ -625,4 +639,6 @@
             }
         }
     }
-})(window.Zepto || window.jQuery);
+
+    return Listloading;
+}));

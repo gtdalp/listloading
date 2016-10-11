@@ -8,12 +8,10 @@
 <title>listLoading</title>
 <link rel="stylesheet" type="text/css" href="../src/css/base.css" />
 <link rel="stylesheet" type="text/css" href="listloading.css" />
-<script src="../src/jslib/zepto.min.js"></script>
-<script src="../src/jslib/iscroll.js"></script>
-<script src="../build/listloading.min.js"></script>
+<script src="../src/jslib/require.js"></script>
 <script>
-$(function () {
-
+require(['zepto', 'iscroll', 'listloading'], function(){
+    var Listloading = require('listloading');
     var m = 3;
     var n = 0;
     var hei = $(window).height();
@@ -32,68 +30,76 @@ $(function () {
         return __html;
     }
     // demo
-    // var listloading = $('#listloading').listloading({
-    //     disableTime: true,  // 是否需要显示时间
-    //     pullUpAction : function(cb){   //上拉加载更多
-    //         m--;
-    //         var flg = false;
-    //         var __html = createHtml();
-    //         if(m < 1){
-    //             flg = true;
-    //         }else{
-    //             $('#order-list').append(__html);
-    //         }
-    //         // 数据加载完毕需要返回 end为true则为全部数据加载完毕
-    //         cb(flg);
-            
-    //     },
-    //     pullDownAction : function(cb){  //下拉刷新
-    //         m = 3;
-    //         var __html = createHtml();
-    //         $('#order-list').html(__html);
-    //         // 执行完执行方法之后必须执行回调 回调的作用是通知默认加载已经全部执行完毕，程序需要去创建iscroll
-    //         cb();
-    //     },
-    //     // iscroll的API 
-    //     iscrollOptions: {
-    //         //
-    //     }
-    // });
-    // // 点击事件
-    // listloading.evt('li', 'click', function (dom) {
-    //     // dom.remove();
-    //     // $('#order-list').append(createHtml());
-    //     // listloading.refresh();
-    // });
-
-    // demo
-    var k = 3;
-    var listloadingClass = $('.listloadingClass').listloading({
-        pullUpAction : function(cb){   //上拉加载更多
-            k--;
+    var listloading = new Listloading('#listloading', {
+        disableTime: true,  // 是否需要显示时间
+        pullUpAction : function(cb){   // 上拉加载更多
+            m--;
             var flg = false;
             var __html = createHtml();
-            if(k < 1){
+            if(m < 1){
                 flg = true;
             }else{
-                $('#listloadingClass-order-list').append(__html);
+                $('#order-list').append(__html);
             }
             // 数据加载完毕需要返回 end为true则为全部数据加载完毕
             cb(flg);
             
         },
-        pullDownAction : function(cb, flag){  //下拉刷新
-            // flag 为true 第一次加载
-            if (flag) {
-                // dosomething...
-            }
-            k = 3;
+        pullDownAction : function(cb){  // 下拉刷新
+            m = 3;
             var __html = createHtml();
-            $('#listloadingClass-order-list').html(__html);
+            $('#order-list').html(__html);
             // 执行完执行方法之后必须执行回调 回调的作用是通知默认加载已经全部执行完毕，程序需要去创建iscroll
             cb();
+        },
+        // iscroll的API 
+        iscrollOptions: {
+            //
         }
     });
+
+    // 点击事件
+    listloading.evt('li', 'click', function (dom) {
+        dom.remove();
+        // $('#order-list').append(createHtml());
+        listloading.refresh();
+    });
+    
+    // demo
+    // var k = 3;
+    // var listloadingClass = new Listloading('.listloadingClass', {
+    //     pullUpAction : function(cb){   //上拉加载更多
+    //         k--;
+    //         var flg = false;
+    //         var __html = createHtml();
+    //         if(k < 1){
+    //             flg = true;
+    //         }else{
+    //             $('#listloadingClass-order-list').append(__html);
+    //         }
+    //         // 数据加载完毕需要返回 end为true则为全部数据加载完毕
+    //         cb(flg);
+            
+    //     },
+    //     pullDownAction : function(cb, flag){  //下拉刷新
+    //         // flag 为true 第一次加载
+    //         if (flag) {
+    //             // dosomething...
+    //         }
+    //         k = 3;
+    //         var __html = createHtml();
+    //         $('#listloadingClass-order-list').html(__html);
+    //         // 执行完执行方法之后必须执行回调 回调的作用是通知默认加载已经全部执行完毕，程序需要去创建iscroll
+    //         cb();
+    //     }
+    // });
+});
+require.config({
+    paths: {
+        "zepto": "../src/jslib/zepto.min",
+        "iscroll": "../src/jslib/iscroll.min",
+        "listloading": "../build/listloading.min"
+    }
 });
 </script>
 </head>
@@ -170,68 +176,15 @@ body{
     overflow:hidden;
 }
 </style>
-<!-- <div id="listloading">
+<div id="listloading">
     <div>
         <ul id="order-list" class="order-list"></ul>
     </div>
-</div> -->
-<div class="listloadingClass">
+</div>
+<!-- <div class="listloadingClass">
     <div>
         <ul id="listloadingClass-order-list" class="order-list"></ul>
     </div>
-</div>
-<script type="text/javascript">
-(function(){
-var memsg = '\
-$=:,............,,,...=Z88MMNDNDN8$?::::~~~:::~+II????II?~,,,,=$O?,,,::=I?++??7$\n\
-:...............,:,:?DND7DMDDO8ZOO78$$I~~~~:::~=I7III?II7:....:=7=,....,??????I7\n\
-,...............,~+$ONDD7IZ8OOZ7$$7I?I+?=~~:::~=II777III7:.....,~~,.....=+IIII77\n\
-..............~.~IO8OD888O$$O8OZZZZ7$7I?+?=:::~=?I7$$7I77=,....,:?,,..,:==?I7$$$\n\
-.. ..........:=+OO8DD88O88DOOO8O888O7$7I??+=::~~+?I$Z7III=~:,,,:+7ZI==I??????I77\n\
-.............?ZD8D8DDDD888OO8OO8O8DDDOZZ???=::~~++??7I?III78MMMMO$Z77$$$7I????II\n\
-........,,...$8DDDDDND88888888OZZODNNNND8D7=::~~=++??I+$D8OD8DMMI7IIIII?I7IIIIII\n\
-......,,::,,.Z8NDDNNND8888Z8888OZZ8NMNM7I=,,~~=:~==?+7OODDIZO$.I:::=?+::~+I77777\n\
-+++++?I7$$??+ZNDNNNNDDDD8OO88O88OO877$~,...$OZNOI~=:D8M$D8INDZ=:O8.,::,,:=7$777$\n\
-??++++++?+=~:~MNNNNNDD88OOOOOOOOO8$=?~=:.7$~8$ZDZONN88NOND877IID~M:.,,..:=IIII7$\n\
-::::,,,,,,,,..NNNNNDDDOOZZOOO8OO7+=N8=+:MD.:::M8888DDDDNNNN8NDDDM8?,,,,,~=+?777$\n\
-,,,:,,......,.8NNNNDNDZ,~+ZZOO8$~~$M:=~$I,~:+:=MDDDNNNNN8NN8MMDD8Z~~~:,:==+I7777\n\
-..,:+=:,,,,,=++MNNNND8?=7?+=ZZ$I=~MI~~:,:~=~:+~~:.8MNNNNMDNMNOO8OIZ=~~:~==?$7III\n\
-...,=?+~::~=+:.:MNMNDO~+$I=~=7I+=+O=~~~:,:,:+$$?~~=,$MNNMNDDNNND$~~=======IZ77II\n\
-....,~??II??:,..IMNNDZ=?++=~=???+N~+===~~~:::~~=?+~==~7:O8~:~:..,:======~=I$7777\n\
-.....:=?===+:,...7MNNOI==~~==++IND=======~~~~?$I=?+??=~~+I~:::,,,:~~=~~~~~?Z$$$$\n\
-.....,::,,,:::....MMN87I7?+?+++?MN=+=========+NZ?=I77$=~=?=~:::::~=~~:,::~I$ZZ$$\n\
-.....,,.....,,....,MMD77IIII????ND7+=======~+~DM$I+7??:==++==+?+??+=~~:,:~I7$Z$$\n\
-...................:NZ$7I??I7IIIDM7===~~~~==+$?=8Z7I?I~I?II?I7$$$$I?++~~~=+?7$ZZ\n\
-...................7O$77I???77$7MO?~~~~~~~==~:$7I$$$I+:7?+~:=7$ZZZ$7II?+++??7$ZO\n\
-...................8N$III???I7$$M$:,,,::~~~I:~$7$ZZO?~,?==:,:+OZZ$$$777I???I7$ZO\n\
-........,:,.......=DN8Z?I????I7OD$$$$ZO87=~M~:Z7$ZOO8$:~I~:~:~88OZZZZZ$$$$7$$$$$\n\
-.......,=$~,..=MDNDDNNNO???+??IZ$$ZZ$$ZZOZD8I:,$$$$$?+7ZMN=:,,78OZZZ$7I77$ZZ$$??\n\
-.......,~~:,..7NNNNDDNNN~:,:::O7Z$ZZ8DZOOO8O87=~77???I$NNMO++:=ZOZ$$7II??I$ZZ$?+\n\
-,.....,,::,,..D8OO88888DZ~,.?OZ77$$78:.OZ8OOZ~+=?ZI7IONNDNMN.?=?ZOZ$77$II?7ZZZI?\n\
-,,,.....=?IIONDDD8D8ZO8DZ7,:87$Z7$$7,.DO88ONZ?DOZ7MDNNNNNDNNO?+?=IZ$$$$7777$ZZ77\n\
-,:,..IMNNDD888O8OOO8NMN8OIOIO$7$$O,,I8O88OMMI8D8DN~ZNNNNNNDDND7.?+?IZ$$$777$ZZ$$\n\
-:::.Z888ODMND8ZZZZO8NNMMD7Z8Z$$$ZZ8OOO888NND+???7III7MNMNNMND8N7I??II$$$77I7$Z$$\n\
-~~~OODD88OO8NNNNMMNMMM7?$8I8$$Z$ZZZO88O$DOOZ?+=??$77I?NNNNNNNNDDOII?$??II7I7$$7$\n\
-~~DD8OZZOOOOZZD8ZDZ8Z$IZ$DIOO7$ZZOO888.+D8OOOZ7I++$$$78NMNNNNNNNDD$7IZ??+?777II7\n\
-:=D8OZOOZZZZZ$$Z8OD$8Z7O7O$$8$$ZZZ887.:~=M8O8O8$D=IZZONNDNMMMNNNDDD8$Z$I?7I????I\n\
-::D8O8OOOOO$$7$$ZOZ$Z8I78OZIOZZ$OZO+,,,:.IDD8888=$+7ODMNDDNNNNNMMND8OOZZI$8?+++?\n\
-,,D888O888$77$$7OOIOZO$IZOZIZZZZOOO~:,,:,.MDD8DD$.NI8NMMNNNNNNNNNNNND88O77ZO?+??\n\
-,,N888D88Z$7$7$$88I7ZZZ7ZO8IZZOOZ7Z8.,,:,,INDDDD8I$D8MMMMNNNNMMMNNNNNND8O$$Z7?II\n\
-:,8DDD88OO$$$Z8O$88IOZ877OZOZO88MNZO$.,,,,,?NDDDDOZ$DMMMMMMMMMMMMNNNNNNND8$Z$Z?I\n\
-::O8DND8OOOOO8ZD$ZD8ZZ87ZZZZOOOONNDZO$,,,,,,8ND8D888DMDMMMMMMMMMMMMMMMMMNND8ZO7I\n\
-788DDND88O888888OZO87OO$OZOOOZ8NDNM8ZO~.,,,,=NDDD88D8NNMMMMMMMMMMMMMMMNNNNNN8ZZI\n\
-8DDDNND88888D8D8D8DOO7OOOO8O8DDDDDNMOO8~,,,,::MDDD88DDMMNDNMMMMMMMMMNNNNNMMNNDZI\n\
-D8DDDNDD8DDDDDDDDDDDDOOOO8DDNDDD88DNNO88..,,::8DDD88DDMMMNNNMNMMMMMMMMMMNNNNNNZZ\n\
-8ODDDDDDDDDDDDDDNNNDNN88D8NNNNDD8888NDZZ7.,,::=NDDDDDDDMMMMMNNMMMMMMMMMMMNMMNO8D\n\
-8DDDDNNNDDDDDDDDNNNNNNNN8MNNNNND8OOODN8Z8?:,:::7NDDDDDMD8ZMMN$88DNNNNMMMMMMDZODD\n\
-MMNNNMMMMNDDDDDDDNNNNMNNMMNMNNND88OO8DMDZ8.,:::+NDDDDDNNDMNZI7$O8NNDDDD8OOZ$77$Z\n\
-NN$ONNMMMMNNNMMMMMMMMMNNMNMNNNND88OOO8DN8Z+.:,:~ONDDDDD8OO$O?I$Z8NMN8OOOOOZZ7I??\n\
-8I8NMNMMMMMMMMMMMMMMMMMMMNMNNNNDD88OOODDMNZ,:,,:7DDDDD8OOO$7??7$ODMMDZ$O888D8O7I\n\
-8NNDM8NMNMMMNNMMMMMMMMMNMMNNNNDNDD88OO88DN8I.,,:=INDD88OZOZ$III7ODNMN8$ZO88DMMNN\n\
-DNN7MZMNNMMMMMNNMMMMMMMMMMNNDDDNDDD8OOO8DNM8.,:::+DDD88O$OZ$7I??$8NNMNZ$ZODNNNNM\n\
-联系方式:295194117@qq.com';
-console.log(memsg)
-})();
-</script>
+</div> -->
 </body>
 </html>
