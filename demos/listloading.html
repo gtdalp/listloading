@@ -52,9 +52,10 @@ require(['zepto', 'iscroll', 'listloading'], function(){
             // 执行完执行方法之后必须执行回调 回调的作用是通知默认加载已经全部执行完毕，程序需要去创建iscroll
             cb();
         },
+        loaderendtxt: '我是有底线的',
         // iscroll的API 
         iscrollOptions: {
-            //
+            // scrollbars: true   // 显示iscroll滚动条
         }
     });
 

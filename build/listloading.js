@@ -1,7 +1,7 @@
 ﻿/**
  * listloading
  * xisa
- * 1.1.0(2014-2016)
+ * 1.1.2(2014-2016)
  */
  /*
     依赖iscroll 
@@ -86,46 +86,42 @@
 
     function Listloading(element, options) {
         this.ele = $(element);
-        var id = $(element).attr('id');
+        var id   = this.ele.attr('id');
         // 如果没有ID 则自动创建一个id
         if (!id) {
             id = 'listLoading' + Math.random().toString().replace('0.', '');
-            $(element).attr('id', id);
+            this.ele.attr('id', id);
         }
-        this.id = id;
-        this.children = $($(element).get(0).children[0]);
+        this.id       = id;
+        this.children = $(this.ele.get(0).children[0]);
 
         // 如果不配置下拉刷新方法或者直接不传配置 则直接创建iscroll (v1.1.0)
         if (typeof options !== 'object' || !$.isFunction(options.pullDownAction) ) {
             this.iscroll = new IScroll('#' + id, options.iscrollOptions);
             return;
         }
-        this.pullUpId = 'pullUp-' + this.id;
-        this.pullDownId = 'pullDown-' + this.id;
+        this.pullUpId   = 'pullUp-' + id;
+        this.pullDownId = 'pullDown-' + id;
         this.init(options);
     }
 
     Listloading.prototype = {
-        version: '1.1.0',
+        version: '1.1.2',
         // 初始化
         init: function (options) {
             this.options = {};
             // 上拉刷新文字
-            this.options.upLoadmoretxt = '<i class="icon-up"></i>上拉加载更多';
+            this.options.upLoadmoretxt     = '<i class="icon-up"></i>上拉加载更多';
             // 下拉刷新文字
-            this.options.pullDrefreshtxt = '<i class="icon-down"></i>下拉加载更多';
+            this.options.pullDrefreshtxt   = '<i class="icon-down"></i>下拉加载更多';
             // 正在加载中文字
-            this.options.loadertxt = '<i class="icon-loading"></i>正在加载更多';
+            this.options.loadertxt         = '<i class="icon-loading"></i>正在加载更多';
             // 松开刷新文字
-            this.options.Realtimetxt = '松开刷新';
+            this.options.Realtimetxt       = '松开刷新';
             // 已经全部加载完毕文字
-            this.options.loaderendtxt = '已显示完全部';
-            // window高度
-            this.options.windowHeight = $(window).height();
-            // window宽度
-            this.options.windowWidth = $(window).width();
+            this.options.loaderendtxt      = '已显示完全部';
             // 显示区域高度
-            this.options.viewHeight = this.ele.height();
+            this.options.viewHeight        = this.ele.height();
 
             // 发布订阅注册
             this.options.pullUpActionStr   = 'pullUpActionStr' + this.id;
@@ -148,7 +144,7 @@
         // 销毁ListLoading
         destroy: function () {
             // 删除上拉下拉刷新节点
-            $(this.children).css({'-webkit-transform': '', 'transform': ''});
+            this.children.css({'-webkit-transform': '', 'transform': ''});
             $('#' + this.pullDownId + ', #' + this.pullUpId).remove();
             this.iscroll.destroy();
         },
@@ -163,7 +159,6 @@
             var op             = this.options;
             var children       = this.children;
             children.css('min-height', 'auto');
-            // .addClass('dialog-before');
 
             var childrenHeight = children.height();
             var pullUpId       = this.pullUpId;
@@ -292,17 +287,16 @@
                     // 设置class和提示
                     toggleClassText(pullUpEle, '', 'pullUpLabel', upLoadmoretxt);
                 }
-                // self.children.addClass('iscroll');
             });
 
             // 移动
             iscroll.on('scrollMove', function(){
                 var y = this.y;
-                var maxScrollY = this.maxScrollY;
-                var pullUpEle = self.pullUpEle;
-                var gapY = 5;  // 拖动的距离
+                var maxScrollY     = this.maxScrollY;
+                var pullUpEle      = self.pullUpEle;
+                var gapY           = 5;  // 拖动的距离
                 var pullDownEleCls = pullDownEle.hasClass('flip');
-                var pullUpEleCls = pullUpEle && pullUpEle.hasClass('flip');
+                var pullUpEleCls   = pullUpEle && pullUpEle.hasClass('flip');
                 
                 // 下拉刷新 显示向上图标
                 if ( y > gapY && !pullDownEleCls ) {
@@ -328,17 +322,17 @@
             iscroll.on('scrollEnd', function(){
                 var y = this.y;
                 var maxScrollY = this.maxScrollY;
-                var pullUpEle = self.pullUpEle;
-                var nowDate = new Date();
+                var pullUpEle  = self.pullUpEle;
+                var nowDate    = new Date();
 
                 // 滚动到底自动加载更多
                 if(y === maxScrollY && pullUpEle){
                     toggleClassText(pullUpEle, 'flip', 'pullUpLabel', Realtimetxt);
                 }
                 // 下拉结束事件
-                self.endPullTime  = nowDate.getTime();
+                self.endPullTime     = nowDate.getTime();
                 // 间隔时间
-                self.totalGapTime = self.endPullTime - self.startPullTime;
+                self.totalGapTime    = self.endPullTime - self.startPullTime;
                 // 结束时间戳
                 self.options.endDate = Date.parse(nowDate);
                 
@@ -369,20 +363,19 @@
                     // 复位动画
                     self.resizeAnimate(maxScrollY + op.pullUpOffset);
                 }
-                // self.children.removeClass('iscroll');
             });
         },
         // 下拉刷新     
         pullDownAction: function (flag) {
             
             // 防止暴力拖拽 计算拖拽的间隔时间
-            var intervals = new Date().getTime() - this.startPullTime;
+            var intervals         = new Date().getTime() - this.startPullTime;
 
-            var self = this;
-            var op = this.options;
-            var pullDownAction = op.pullDownAction;
+            var self              = this;
+            var op                = this.options;
+            var pullDownAction    = op.pullDownAction;
             var pullDownActionStr = op.pullDownActionStr;
-            
+            var id                = $('#' + self.id);
 
             if ($.isFunction(pullDownAction)) {
                 // 创建iscroll
@@ -398,6 +391,7 @@
                             // preventDefault: false,
                             startY : -op.pullDownOffset,
                             listLoading: true, // iscroll中_move  433行  刷新bug
+                            scrollbars: true   // 显示iscroll滚动条
                             // probeType: 3   // 这个属性是调节在scroll事件触发中探针的活跃度或者频率。有效值有：1, 2, 3。数值越高表示更活跃的探测。探针活跃度越高对CPU的影响就越大。  iscroll-probe.js
                         }
 
@@ -432,37 +426,38 @@
                             // 是否重新需要创建上拉加载更多
                             self.createPullUpEle();
                         }
+                        // 加载完毕让动画停留1秒
+                        setTimeout(function () {
+                            $('body').removeClass('iscroll');
+                            // 复位动画
+                            self.resizeAnimate();
 
-                        // 复位动画
-                        self.resizeAnimate();
-
-                        // 数据加载完成后，调用界面更新方法
-                        self.iscroll.refresh();
-                        // 移除订阅
-                        publishEvents.remove(pullDownActionStr);
+                            // 数据加载完成后，调用界面更新方法
+                            self.iscroll.refresh();
+                            // 移除订阅
+                            publishEvents.remove(pullDownActionStr);
+                        }, 1000);
                     });
                     // 回调
                     pullDownAction(function () {
+                        // 加载中禁止拖动
+                        $('body').addClass('iscroll');
                         // 执行订阅方法
                         publishEvents.trigger(pullDownActionStr);
                     }, flag);
                 }
-
-                
             }
             
         },
         // 上拉加载更多
         pullUpAction: function () {
-
+            var self            = this;
             // 防止暴力拖拽 计算拖拽的间隔时间
-            var intervals = new Date().getTime() - this.startPullTime;
-
-            var self = this;
-            var op = this.options;
-            var pullUpAction = op.pullUpAction;
+            var intervals       = new Date().getTime() - self.startPullTime;
+            var op              = self.options;
+            var pullUpAction    = op.pullUpAction;
             var pullUpActionStr = op.pullUpActionStr;
-            var iscroll = self.iscroll;
+            var iscroll         = self.iscroll;
 
             if( $.isFunction(pullUpAction)) {
                 var top = iscroll.y + op.pullUpOffset;
@@ -470,21 +465,25 @@
                     publishEvents.listen(pullUpActionStr, function(){
                         // 重新刷新检测是否需要上拉加载更多
                         self.refresh(true);
-                        var pullUpEle = self.pullUpEle;
+                        var pullUpEle  = self.pullUpEle;
 
                         var loaderText = op.loaderendtxt;
                         // 数据全部加载完毕
                         if( op.pullEnd ){
-                            // 复位动画
-                            self.resizeAnimate(top);
+                            // 加载完毕让动画停留1秒
+                            setTimeout(function () {
+                                $('body').removeClass('iscroll');
+                                // 复位动画
+                                self.resizeAnimate(top);
+                            }, 1000);
                         }else{
+                            $('body').removeClass('iscroll');
                             loaderText = op.upLoadmoretxt;
                             // 数据加载完成后，调用界面更新方法
                             iscroll.refresh();
                         }
                         // 显示加载完毕文字
                         pullUpEle.find('.pullUpLabel').html(loaderText);
-
                         
                         // 移除订阅
                         publishEvents.remove(pullUpActionStr);
@@ -492,6 +491,8 @@
                     });
                     // 回调
                     pullUpAction(function (pullEnd) {
+                        // 加载中禁止拖动
+                        $('body').addClass('iscroll');
                         // 检查下拉是否完毕
                         op.pullEnd = pullEnd;
                         // 执行订阅方法
