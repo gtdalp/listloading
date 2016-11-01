@@ -5,7 +5,7 @@ demo地址: <a href="https://gtdalp.github.io/widget/listloading/demos/listloadi
 
 ###npm安装
 ```javascript
-npm install -g listloading
+npm install listloading
 ```
 
 
