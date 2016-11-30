@@ -2,8 +2,10 @@
 listloading是一个移动端的上拉、下拉加载更多的组件。主要依赖于iscroll.js v5.1.2基础上开发的组件，基础库可以使用jquery.js或者zepto.js操作dom节点，目前我是使用了zepto.js作为基础库操作dom，以jquery插件的形式存在。如果不想以插件方式使用，则只需要把listloading直接移植你需要的库里面就ok啦。listloading主要针对移动端而生，在使用浏览器自带滚动，用户体验很不友好，与Android和ios差别甚远，所以选择iscroll.js，它实现方式是使用css3动画translate 3D 转换来实现滚动效果，transform属性使用硬件加速，性能方法得到很大提高。支持Node引入，require引入.
 
 demo地址:<br/> <br/> 
-![qcode1.png](qcode1.png)<br/>
+![qcode1.png](./src/images/qcode1.png)<br/>
 <a href="https://gtdalp.github.io/widget/listloading/demos/listloading.html">https://gtdalp.github.io/widget/listloading/demos/listloading.html</a>
+![demo.gif](./src/images/demo.gif)<br/>
+
 
 ###npm安装
 ```javascript
@@ -68,10 +70,14 @@ var listloading = new Listloading('#listloading', {
         
     },
     pullDownAction : function(cb){  // 下拉刷新
+        // true则为默认加载 false为下拉刷新
+        if (flg) {
+            console.log('默认加载');
+        }
         m = 3;
         var __html = createHtml();
         $('#order-list').html(__html);
-        // 执行完执行方法之后必须执行回调 回调的作用是通知默认加载已经全部执行完毕，程序需要去创建iscroll
+        // 执行完执行方法之后必须执行回调 回调的作用是通知默认加载已经全部执行完毕，程序需要去创建iscroll或者做下拉刷新动作
         cb();
     },
     // iscroll的API 
@@ -110,14 +116,14 @@ listloading.evt('li', 'click', function (dom) {
 //         k = 3;
 //         var __html = createHtml();
 //         $('#listloadingClass-order-list').html(__html);
-//         // 执行完执行方法之后必须执行回调 回调的作用是通知默认加载已经全部执行完毕，程序需要去创建iscroll
+//         // 执行完执行方法之后必须执行回调 回调的作用是通知默认加载已经全部执行完毕，程序需要去创建iscroll或者做下拉刷新动作
 //         cb();
 //     }
 // });
 ```
 效果图
-![demo1.png](demo1.png)
-![demo2.png](demo2.png)
+![demo1.png](./src/images/demo1.png)
+![demo2.png](./src/images/demo2.png)
 
 
 ###4、API

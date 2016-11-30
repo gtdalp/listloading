@@ -45,11 +45,15 @@ require(['zepto', 'iscroll', 'listloading'], function(){
             cb(flg);
             
         },
-        pullDownAction : function(cb){  // 下拉刷新
+        pullDownAction : function(cb, flg){  // 下拉刷新
+            // true则为默认加载 false为下拉刷新
+            if (flg) {
+                console.log('默认加载');
+            }
             m = 3;
             var __html = createHtml();
             $('#order-list').html(__html);
-            // 执行完执行方法之后必须执行回调 回调的作用是通知默认加载已经全部执行完毕，程序需要去创建iscroll
+            // 执行完执行方法之后必须执行回调 回调的作用是通知默认加载已经全部执行完毕，程序需要去创建iscroll或者做下拉刷新动作
             cb();
         },
         Realtimetxt: '官人不要，请放开我！',
