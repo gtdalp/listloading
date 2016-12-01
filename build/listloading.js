@@ -1,7 +1,7 @@
 ﻿/**
  * listloading
  * xisa
- * 1.1.2(2014-2016)
+ * 1.1.4(2014-2016)
  */
  /*
     依赖iscroll 
@@ -106,7 +106,7 @@
     }
 
     Listloading.prototype = {
-        version: '1.1.2',
+        version: '1.1.4',
         // 初始化
         init: function (options) {
             this.options = {};
@@ -267,6 +267,11 @@
             var loadertxt       = op.loadertxt;
             var pullDownOffset  = -op.pullDownOffset;
             
+            // 解决微信长按识别二维码
+            this.ele.get(0).addEventListener('touchstart', function(e){
+                e.returnValue = true;
+            });
+
             // 开始
             iscroll.on('scrollStart', function () {
                 var pullUpEle = self.pullUpEle;
