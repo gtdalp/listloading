@@ -35,7 +35,7 @@ div[data-class=pullDownId]>span.time{
 }
 .inlineblock-span{
     display:inline-block;
-    width:107px;
+    padding:0 20px;
     overflow:hidden;
 }
 div[data-class=pullUpId]>span.inlineblock-span>i, 

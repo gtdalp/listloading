@@ -9,23 +9,31 @@
 <link rel="stylesheet" type="text/css" href="../src/css/base.css" />
 <link rel="stylesheet" type="text/css" href="listloading.css" />
 <script src="../src/jslib/require.js"></script>
+<script src="iconfont.js"></script>
 <script>
+
 require(['zepto', 'iscroll', 'listloading'], function(){
     var Listloading = require('listloading');
     var m = 3;
     var n = 0;
     var hei = $(window).height();
+    var arr = ['baby_food', 'carrycot', 'feeding_bottle', 'feeding_bottle2', 'tricycle', 'rattle', 'rattle6', 'mobile', 'pin', 'safety_seat', 'pin']
     // 创建iscroll之前必须要先设置父元素的高度，否则无法拖动iscroll
     $('#listloading, .listloadingClass').height(hei);
 
     // 模板
     var createHtml = function(){
-        var __html = '';
+        var __html = '', now, x;
         for(var i = 0; i < 15; i++){
-            var now = new Date().getTime();
+            now = new Date().getTime();
             now = new Date(now + i*1000000);
-
-            __html += '<li><span class="icon"></span><p class="title"><time class="r">' + now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds() + '</time>listloading' + (n++) + '</p><p class="text">移动端上拉下拉刷新组件...</li>';
+            x = Math.random().toString().substring(2,3);
+            console.log(arr[x] + '---' + x)
+            __html += '<li><span class="icon">' + 
+                '<svg class="svg-icon" aria-hidden="true">\
+                  <use xlink:href="#icon-' + arr[x] + '"></use>\
+                </svg>'
+            +'</span><p class="title"><time class="r">' + now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds() + '</time>listloading' + (n++) + '</p><p class="text">移动端上拉下拉刷新组件...</li>';
         }
         return __html;
     }
@@ -104,7 +112,7 @@ require.config({
     paths: {
         "zepto": "../src/jslib/zepto.min",
         "iscroll": "../src/jslib/iscroll.min",
-        "listloading": "../build/listloading.min"
+        "listloading": "../build/listloading"
     }
 });
 </script>
@@ -133,39 +141,17 @@ body{
     line-height:50px;
     margin-right:10px;
     border-radius:50%;
-    background:#4694CE;
+    background:#FFC107;
     text-align:center;
+    font-size:36px;
 }
-.order-list>li:nth-child(2n)>span.icon{
-    background:#EF8C2A;
+.svg-icon{
+    width: 1em; height: 1em;
+    vertical-align: -0.1em;
+    fill: currentColor;
+    overflow: hidden;
 }
-.order-list>li:nth-child(3n)>span.icon{
-    background:#42B573;
-}
-.order-list>li:nth-child(4n)>span.icon{
-    background:#EF8C2A;
-}
-.order-list>li:nth-child(5n)>span.icon{
-    background:#73CED6;
-}
-.order-list>li>span.icon::before{
-    font-family:'iconfont';
-    font-size:26px;
-    color:#fff;
-    content:'\3456';
-}
-.order-list>li:nth-child(2n)>span.icon::before{
-    content:'\3453';
-}
-.order-list>li:nth-child(3n)>span.icon::before{
-    content:'\3460';
-}
-.order-list>li:nth-child(4n)>span.icon::before{
-    content:'\3461';
-}
-.order-list>li:nth-child(5n)>span.icon::before{
-    content:'\3503';
-}
+
 
 .order-list>li>.title{
     font-size:16px;
