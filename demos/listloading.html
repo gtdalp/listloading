@@ -28,7 +28,6 @@ require(['zepto', 'iscroll', 'listloading'], function(){
             now = new Date().getTime();
             now = new Date(now + i*1000000);
             x = Math.random().toString().substring(2,3);
-            console.log(arr[x] + '---' + x)
             __html += '<li><span class="icon">' + 
                 '<svg class="svg-icon" aria-hidden="true">\
                   <use xlink:href="#icon-' + arr[x] + '"></use>\
@@ -112,7 +111,7 @@ require.config({
     paths: {
         "zepto": "../src/jslib/zepto.min",
         "iscroll": "../src/jslib/iscroll.min",
-        "listloading": "../build/listloading"
+        "listloading": "../build/listloading.min"
     }
 });
 </script>
