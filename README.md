@@ -210,7 +210,7 @@ options.iscrollOptions = {};
 ```
 ###目录结构
 listloading
-
+```javascript
 ├────build
 ├───────listloading.js          // 源文件
 ├────demos
@@ -229,3 +229,4 @@ listloading
 ├──────────...                  // demo图片
 ├───────jslib
 └──────────...                  // 第三方库
+```
