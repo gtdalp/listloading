@@ -212,21 +212,21 @@ options.iscrollOptions = {};
 listloading
 ```javascript
 ├────build
-├───────listloading.js          // 源文件
+|      └──listloading.js           // 源文件
 ├────demos
-├──────────....                 // demo字体样式
+|      └──....                     // demo字体样式
 ├────dist
-├───────css
-├──────────listloading.min.css  // 压缩css
-├───────js
-├──────────listloading.min.js   // 压缩js源文件
+|      |──css
+|      |   └──listloading.min.css  // 压缩css
+|      └──js
+|          └──listloading.min.js   // 压缩js源文件
 ├────src
-├───────css
-├──────────base.css             // 基础base样式
-├───────fontface        
-├──────────...                  // 字体文件
-├───────images                  
-├──────────...                  // demo图片
-├───────jslib
-└──────────...                  // 第三方库
+|      |──css
+|      |    └──base.css            // 基础base样式
+|      |──fontface        
+|      |     └──...                // 字体文件
+|      |──images                  
+|      |     └──...                // demo图片
+|      |──jslib
+|      |     └── ...               // 第三方库
 ```
