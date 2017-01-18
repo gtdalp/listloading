@@ -98,6 +98,8 @@
         // 如果不配置下拉刷新方法或者直接不传配置 则直接创建iscroll (v1.1.0)
         if (typeof options !== 'object' || !$.isFunction(options.pullDownAction) ) {
             this.iscroll = new IScroll('#' + id, options.iscrollOptions);
+            // 解决新版浏览器(Android 7.0)导致iscroll无法滚动
+            document.addEventListener('touchmove', function(e) {e.preventDefault();}, false);
             return;
         }
         this.pullUpId   = 'pullUp-' + id;
@@ -410,6 +412,9 @@
                         self.scrollEvent();
                         // 移除订阅
                         publishEvents.remove(pullDownActionStr);
+                        
+                        // 解决新版浏览器(Android 7.0)导致iscroll无法滚动
+                        document.addEventListener('touchmove', function(e) {e.preventDefault();}, false);
                     });
                     // 回调
                     pullDownAction(function () {
