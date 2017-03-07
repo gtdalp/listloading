@@ -1,7 +1,7 @@
 ﻿/**
  * listloading
  * xisa
- * 1.1.6(2014-2016)
+ * 1.1.8(2014-2016)
  */
  /*
     依赖iscroll 
@@ -97,7 +97,8 @@
 
         // 如果不配置下拉刷新方法或者直接不传配置 则直接创建iscroll (v1.1.0)
         if (typeof options !== 'object' || !$.isFunction(options.pullDownAction) ) {
-            this.iscroll = new IScroll('#' + id, options.iscrollOptions);
+            var iscrollOptions = options ? options.iscrollOptions || {} : {};
+            this.iscroll = new IScroll('#' + id, iscrollOptions);
             // 解决新版浏览器(Android 7.0)导致iscroll无法滚动
             document.addEventListener('touchmove', function(e) {e.preventDefault();}, false);
             return;
@@ -108,7 +109,7 @@
     }
 
     Listloading.prototype = {
-        version: '1.1.6',
+        version: '1.1.8',
         // 初始化
         init: function (options) {
             this.options = {};
@@ -412,7 +413,7 @@
                         self.scrollEvent();
                         // 移除订阅
                         publishEvents.remove(pullDownActionStr);
-                        
+
                         // 解决新版浏览器(Android 7.0)导致iscroll无法滚动
                         document.addEventListener('touchmove', function(e) {e.preventDefault();}, false);
                     });

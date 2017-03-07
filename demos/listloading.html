@@ -67,7 +67,7 @@ require(['zepto', 'iscroll', 'listloading'], function(){
         loaderendtxt: '我是有底线的',
         // iscroll的API 
         iscrollOptions: {
-            // scrollbars: true   // 显示iscroll滚动条
+            scrollbars: false   // 显示iscroll滚动条
         }
     });
 
@@ -106,6 +106,16 @@ require(['zepto', 'iscroll', 'listloading'], function(){
     //         cb();
     //     }
     // });
+    var li = document.getElementsByTagName('li');
+
+    for (var i = 0; i < li.length; i++) {
+        li[i].onclick = (function(i) {
+            return function () {
+                console.log(i)
+            }
+        })(i);
+    }
+
 });
 require.config({
     paths: {
