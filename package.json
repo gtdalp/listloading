@@ -17,8 +17,11 @@
   },
   "homepage": "https://github.com/gtdalp/listloading#readme",
   "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-preset-es2015": "^6.22.0",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
     "gulp-eslint": "^3.0.1",
     "gulp-minify-css": "^1.2.4",
     "gulp-rename": "^1.2.2",

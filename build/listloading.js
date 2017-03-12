@@ -396,7 +396,7 @@
                         var obj = {
                             // preventDefault为false这行就是解决onclick失效问题
                             // 为true就是阻止事件冒泡,所以onclick没用  但是开启这个值在微信下面拖动会有问题  滑动结束之后触发不到scrollend
-                            preventDefault: false,
+                            // preventDefault: false,
                             startY : -op.pullDownOffset,
                             listLoading: true, // iscroll中_move  433行  刷新bug
                             scrollbars: true   // 显示iscroll滚动条

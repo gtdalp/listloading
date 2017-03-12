@@ -1,4 +1,7 @@
 @charset "UTF-8";
+body{
+    touch-action: none;
+}
 /*refresh*/
 div[data-class=pullUpId],
 div[data-class=pullDownId],
