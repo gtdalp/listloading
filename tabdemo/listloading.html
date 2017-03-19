@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>tab-listLoading</title>
+<link rel="stylesheet" type="text/css" href="../src/css/base.css" />
+<link rel="stylesheet" type="text/css" href="../dist/css/listloading.min.css" />
+<script src="../src/jslib/require.js"></script>
+<script src="iconfont.js"></script>
+<script>
+// 
+require(['zepto', 'iscroll', 'listloading'], function(){
+    var Listloading = require('listloading');
+    var m = 3;
+    var n = 0;
+    var hei = $(window).height();
+    var arr = ['baby_food', 'carrycot', 'feeding_bottle', 'feeding_bottle2', 'tricycle', 'rattle', 'rattle6', 'mobile', 'pin', 'safety_seat', 'pin']
+    
+    // 模板
+    var createHtml = function(str){
+        var __html = '', now, x;
+        for(var i = 0; i < 15; i++){
+            now = new Date().getTime();
+            now = new Date(now + i*1000000);
+            x = Math.random().toString().substring(2,3);
+            __html += '<li><span class="icon">' + 
+                '<svg class="svg-icon" aria-hidden="true">\
+                  <use xlink:href="#icon-' + arr[x] + '"></use>\
+                </svg>'
+            +'</span><p class="title"><time class="r">' + now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds() + '</time><span style="color:#f00">' + str + '</span>-listloading' + (n++) + '</p><p class="text">移动端上拉下拉刷新组件...</li>';
+        }
+        return __html;
+    }
+    // tab1
+    var listloading = new Listloading('#listloading', {
+        disableTime: true,  // 是否需要显示时间
+        pullUpAction : function(cb){   // 上拉加载更多
+            m--;
+            var flg = false;
+            var __html = createHtml('TAB1');
+            if(m < 1){
+                flg = true;
+            }else{
+                $('#order-list').append(__html);
+            }
+            // 数据加载完毕需要返回 end为true则为全部数据加载完毕
+            cb(flg);
+            
+        },
+        pullDownAction : function(cb, flg){  // 下拉刷新
+            // true则为默认加载 false为下拉刷新
+            if (flg) {
+                console.log('默认加载');
+            }
+            m = 3;
+            var __html = createHtml('TAB1');
+            $('#order-list').html(__html);
+            // 执行完执行方法之后必须执行回调 回调的作用是通知默认加载已经全部执行完毕，程序需要去创建iscroll或者做下拉刷新动作
+            cb();
+        },
+        Realtimetxt: '官人不要，请放开我！',
+        loaderendtxt: '我是有底线的',
+        // iscroll的API 
+        iscrollOptions: {
+            scrollbars: false   // 显示iscroll滚动条
+        }
+    });
+    // tab2
+    var Tab2Listloading = function () {
+        new Listloading('#listloading2', {
+            pullDownAction : function(cb, flg){
+                m = 3;
+                var __html = createHtml('TAB2');
+                $('#order-list2').html(__html);
+                cb();
+            },
+            Realtimetxt: '官人不要，请放开我！',
+            loaderendtxt: '我是有底线的'
+        });
+    }
+    // tab3
+    var Tab3Listloading = function () {
+        new Listloading('#listloading3', {
+            pullDownAction : function(cb, flg){
+                m = 3;
+                var __html = createHtml('TAB3');
+                $('#order-list3').html(__html);
+                cb();
+            },
+            Realtimetxt: '官人不要，请放开我！',
+            loaderendtxt: '我是有底线的'
+        });
+    }
+    // 只有第一次load才执行
+    var tabFirstLoad2 = true;
+    var tabFirstLoad3 = true;
+    // 切换
+    $('#listloadingtab>span').click(function() {
+        var index = $(this).index();
+        $('#listloadingtab>span').eq(index).addClass('active').siblings().removeClass('active');
+        $('.listloading-tab').hide();
+        $('.listloading-tab').eq(index).show();
+        // 第二个tab
+        if (index === 1 && tabFirstLoad2) {
+            tabFirstLoad2 = false;
+            Tab2Listloading();
+        } 
+        // 第三个tab
+        else if (index === 2 && tabFirstLoad3) {
+            tabFirstLoad3 = false;
+            Tab3Listloading();
+        }
+    });
+});
+require.config({
+    paths: {
+        "zepto": "../src/jslib/zepto.min",
+        "iscroll": "../src/jslib/iscroll.min",
+        "listloading": "../dist/js/listloading.min"
+    }
+});
+</script>
+</head>
+<body>
+<style type="text/css">
+html,
+body{
+    height:100%;
+    background:#E6E6E6;
+}
+.listloading-tab{
+    display: none;
+    position: absolute;
+    top:51px;
+    left:0;
+    width: 100%;
+    height:calc(100% - 51px);
+    overflow:hidden;
+}
+.order-list>li{
+    height:50px;
+    line-height:24px;
+    padding:10px 15px 10px 10px;
+    margin:10px;
+    border-radius:3px;
+    box-shadow:1px 1px 2px #ccc;
+    background:#fff;
+}
+.order-list>li>span.icon{
+    float:left;
+    width:50px;
+    height:50px;
+    line-height:50px;
+    margin-right:10px;
+    border-radius:50%;
+    background:#FFC107;
+    text-align:center;
+    font-size:36px;
+}
+.svg-icon{
+    width: 1em; height: 1em;
+    vertical-align: -0.1em;
+    fill: currentColor;
+    overflow: hidden;
+}
+
+
+.order-list>li>.title{
+    font-size:16px;
+    color:#292929;
+}
+.order-list>li>.title>time.r{
+    color:#666;
+    font-size:12px;
+}
+.order-list>li>.text{
+    color:#7B7B7B;
+}
+.listloadingClass{
+    overflow:hidden;
+}
+
+/*tab*/
+#listloadingtab{
+    display: flex;
+    border-bottom:1px solid #8c887d;
+}
+#listloadingtab>span{
+    flex: 1;
+    height:50px;
+    line-height: 50px;
+    font-size:20px;
+    text-align: center;
+    cursor: pointer;
+}
+#listloadingtab>span.active{
+    background: #FFC107;
+    color:#fff;
+}
+
+</style>
+<div id="listloadingtab">
+    <span class="active">tab1</span>
+    <span>tab2</span>
+    <span>tab3</span>
+</div>
+<div id="listloading" class="listloading-tab" style="display:block;">
+    <div>
+        <ul id="order-list" class="order-list"></ul>
+    </div>
+</div>
+<div id="listloading2" class="listloading-tab">
+    <div>
+        <ul id="order-list2" class="order-list"></ul>
+    </div>
+</div>
+<div id="listloading3" class="listloading-tab">
+    <div>
+        <ul id="order-list3" class="order-list"></ul>
+    </div>
+</div>
+</body>
+</html>
