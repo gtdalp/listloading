@@ -27,3 +27,4 @@ gulp.task('build', ['build-minifyCss'], function () {
         .pipe(rename('listloading.min.js'))
         .pipe(gulp.dest('./dist/js/'));
 });
+
