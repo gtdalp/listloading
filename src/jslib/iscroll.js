@@ -435,8 +435,9 @@ IScroll.prototype = {
 		/*自定义代码 begin*/ 
 		// ios bug 滑出webView外面 事件会停留在move状态
 		var wrapperHeight = this.wrapperHeight
-			, maxhei = wrapperHeight - this.pointY   //  + Math.abs(this.options.startY)
+			, maxhei = (wrapperHeight - this.pointY) + this.wrapper.offsetTop   //  + Math.abs(this.options.startY)
 			;
+			
 		if(this.options.listLoading && (maxhei<0 || maxhei>wrapperHeight)){
 			this._end(e);
 		}

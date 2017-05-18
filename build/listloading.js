@@ -1,7 +1,7 @@
 ﻿/**
  * listloading
  * xisa
- * 1.1.8(2014-2016)
+ * 1.1.9(2014-2016)
  */
  /*
     依赖iscroll 
@@ -108,7 +108,7 @@
     }
 
     Listloading.prototype = {
-        version: '1.1.8',
+        version: '1.1.9',
         // 初始化
         init: function (options) {
             this.options = {};
