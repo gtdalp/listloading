@@ -57,11 +57,11 @@ div[data-class=clickDownId]>span.inlineblock-span>i::before{
 }
 div[data-class=pullUpId]>span.inlineblock-span>i.icon-up::before,
 div[data-class=pullDownId]>span.inlineblock-span>i.icon-up::before{
-    -webkit-animation:refreshRotateUp 0.3s forwards;
-    -moz-animation:refreshRotateUp 0.3s forwards;
-    -ms-animation:refreshRotateUp 0.3s forwards;
-    -o-animation:refreshRotateUp 0.3s forwards;
-    animation:refreshRotateUp 0.3s forwards;
+    -webkit-animation:refreshRotateUp 0.3s forwards linear;
+    -moz-animation:refreshRotateUp 0.3s forwards linear;
+    -ms-animation:refreshRotateUp 0.3s forwards linear;
+    -o-animation:refreshRotateUp 0.3s forwards linear;
+    animation:refreshRotateUp 0.3s forwards linear;
     content:'\e674';
 }
 @-webkit-keyframes refreshRotateUp{
@@ -146,11 +146,11 @@ div[data-class=pullDownId]>span.inlineblock-span>i.icon-up::before{
 }
 div[data-class=pullUpId]>span.inlineblock-span>i.icon-down::before,
 div[data-class=pullDownId]>span.inlineblock-span>i.icon-down::before{
-    -webkit-animation:refreshRotateDown 0.3s forwards;
-    -moz-animation:refreshRotateDown 0.3s forwards;
-    -ms-animation:refreshRotateDown 0.3s forwards;
-    -o-animation:refreshRotateDown 0.3s forwards;
-    animation:refreshRotateDown 0.3s forwards;
+    -webkit-animation:refreshRotateDown 0.3s forwards linear;
+    -moz-animation:refreshRotateDown 0.3s forwards linear;
+    -ms-animation:refreshRotateDown 0.3s forwards linear;
+    -o-animation:refreshRotateDown 0.3s forwards linear;
+    animation:refreshRotateDown 0.3s forwards linear;
 }
 @-webkit-keyframes refreshRotateDown{
     0%{
