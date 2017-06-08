@@ -1,7 +1,7 @@
 ﻿/**
  * listloading
  * xisa
- * 1.1.9(2014-2016)
+ * 1.2.0(2014-2016)
  */
  /*
     依赖iscroll 
@@ -83,6 +83,19 @@
         }
     }
 
+    // 修复iscroll在新版chrome和其他新版浏览器(Android 7.0)无法滚动bug
+    function isPassive() {
+        var supportsPassiveOption = false;
+        try {
+            addEventListener("test", null, Object.defineProperty({}, 'passive', {
+                get: function () {
+                    supportsPassiveOption = true;
+                }
+            }));
+        } catch(e) {}
+        return supportsPassiveOption;
+    }
+
     function Listloading(element, options) {
         this.ele = $(element);
         var id   = this.ele.attr('id');
@@ -94,12 +107,18 @@
         this.id       = id;
         this.children = $(this.ele.get(0).children[0]);
 
-        // 如果不配置下拉刷新方法或者直接不传配置 则直接创建iscroll (v1.1.0)
+        // 如果不配置下拉刷新方法或者直接不传配置 则直接创建iscroll (v1.2.0)
         if (typeof options !== 'object' || !$.isFunction(options.pullDownAction) ) {
             var iscrollOptions = options ? options.iscrollOptions || {} : {};
+
+            // 修复iscroll在新版chrome和其他新版浏览器(Android 7.0)无法滚动bug
+            iscrollOptions.mouseWheel = true;
             this.iscroll = new IScroll('#' + id, iscrollOptions);
-            // 解决新版浏览器(Android 7.0)导致iscroll无法滚动
-            document.addEventListener('touchmove', function(e) {e.preventDefault();}, false);
+            // 修复iscroll在新版chrome和其他新版浏览器(Android 7.0)无法滚动bug
+            document.addEventListener('touchmove', function (e) { e.preventDefault(); }, isPassive() ? {
+                capture: false,
+                passive: false
+            } : false);
             return;
         }
         this.pullUpId   = 'pullUp-' + id;
@@ -108,7 +127,7 @@
     }
 
     Listloading.prototype = {
-        version: '1.1.9',
+        version: '1.2.0',
         // 初始化
         init: function (options) {
             this.options = {};
@@ -397,6 +416,7 @@
                             // 为true就是阻止事件冒泡,所以onclick没用  但是开启这个值在微信下面拖动会有问题  滑动结束之后触发不到scrollend
                             preventDefault: false,
                             startY : -op.pullDownOffset,
+                            mouseWheel: true,
                             listLoading: true, // iscroll中_move  433行  刷新bug
                             scrollbars: true   // 显示iscroll滚动条
                             // probeType: 3   // 这个属性是调节在scroll事件触发中探针的活跃度或者频率。有效值有：1, 2, 3。数值越高表示更活跃的探测。探针活跃度越高对CPU的影响就越大。  iscroll-probe.js
@@ -413,8 +433,11 @@
                         // 移除订阅
                         publishEvents.remove(pullDownActionStr);
 
-                        // 解决新版浏览器(Android 7.0)导致iscroll无法滚动
-                        document.addEventListener('touchmove', function(e) {e.preventDefault();}, false);
+                        // 修复iscroll在新版chrome和其他新版浏览器(Android 7.0)无法滚动bug
+                        document.addEventListener('touchmove', function (e) { e.preventDefault(); }, isPassive() ? {
+                            capture: false,
+                            passive: false
+                        } : false);
                     });
                     // 回调
                     pullDownAction(function () {
