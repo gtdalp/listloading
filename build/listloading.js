@@ -1,7 +1,7 @@
 ﻿/**
  * listloading
  * xisa
- * 1.2.0(2014-2016)
+ * 1.2.1(2014-2016)
  */
  /*
     依赖iscroll 
@@ -107,7 +107,7 @@
         this.id       = id;
         this.children = $(this.ele.get(0).children[0]);
 
-        // 如果不配置下拉刷新方法或者直接不传配置 则直接创建iscroll (v1.2.0)
+        // 如果不配置下拉刷新方法或者直接不传配置 则直接创建iscroll (v1.2.1)
         if (typeof options !== 'object' || !$.isFunction(options.pullDownAction) ) {
             var iscrollOptions = options ? options.iscrollOptions || {} : {};
 
@@ -119,7 +119,7 @@
                 capture: false,
                 passive: false
             } : false);
-            return;
+            return this.iscroll;
         }
         this.pullUpId   = 'pullUp-' + id;
         this.pullDownId = 'pullDown-' + id;
@@ -127,7 +127,7 @@
     }
 
     Listloading.prototype = {
-        version: '1.2.0',
+        version: '1.2.1',
         // 初始化
         init: function (options) {
             this.options = {};
