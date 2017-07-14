@@ -1,7 +1,7 @@
 ﻿/**
  * listloading
  * xisa
- * 1.2.1(2014-2016)
+ * 1.2.2(2014-2016)
  */
  /*
     依赖iscroll 
@@ -83,19 +83,6 @@
         }
     }
 
-    // 修复iscroll在新版chrome和其他新版浏览器(Android 7.0)无法滚动bug
-    function isPassive() {
-        var supportsPassiveOption = false;
-        try {
-            addEventListener("test", null, Object.defineProperty({}, 'passive', {
-                get: function () {
-                    supportsPassiveOption = true;
-                }
-            }));
-        } catch(e) {}
-        return supportsPassiveOption;
-    }
-
     function Listloading(element, options) {
         this.ele = $(element);
         var id   = this.ele.attr('id');
@@ -107,18 +94,13 @@
         this.id       = id;
         this.children = $(this.ele.get(0).children[0]);
 
-        // 如果不配置下拉刷新方法或者直接不传配置 则直接创建iscroll (v1.2.1)
+        // 如果不配置下拉刷新方法或者直接不传配置 则直接创建iscroll (v1.2.2)
         if (typeof options !== 'object' || !$.isFunction(options.pullDownAction) ) {
             var iscrollOptions = options ? options.iscrollOptions || {} : {};
 
             // 修复iscroll在新版chrome和其他新版浏览器(Android 7.0)无法滚动bug
             iscrollOptions.mouseWheel = true;
             this.iscroll = new IScroll('#' + id, iscrollOptions);
-            // 修复iscroll在新版chrome和其他新版浏览器(Android 7.0)无法滚动bug
-            document.addEventListener('touchmove', function (e) { e.preventDefault(); }, isPassive() ? {
-                capture: false,
-                passive: false
-            } : false);
             return this.iscroll;
         }
         this.pullUpId   = 'pullUp-' + id;
@@ -127,7 +109,7 @@
     }
 
     Listloading.prototype = {
-        version: '1.2.1',
+        version: '1.2.2',
         // 初始化
         init: function (options) {
             this.options = {};
@@ -432,12 +414,6 @@
                         self.scrollEvent();
                         // 移除订阅
                         publishEvents.remove(pullDownActionStr);
-
-                        // 修复iscroll在新版chrome和其他新版浏览器(Android 7.0)无法滚动bug
-                        document.addEventListener('touchmove', function (e) { e.preventDefault(); }, isPassive() ? {
-                            capture: false,
-                            passive: false
-                        } : false);
                     });
                     // 回调
                     pullDownAction(function () {
