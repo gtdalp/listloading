@@ -3,9 +3,9 @@ listloading是一个移动端的上拉、下拉加载更多的组件。主要依
 
 
 ## 效果图:
-![demo1.png](./src/images/demo1.png)
-![demo2.png](./src/images/demo2.png)<br/> <br/>
-![demo.gif](./src/images/demo.gif)![qcode1.png](./src/images/qcode1.png)<br/> <br/>
+![demo1.png](./v1.2.2/src/images/demo1.png)
+![demo2.png](./v1.2.2/src/images/demo2.png)<br/> <br/>
+![demo.gif](./v1.2.2/src/images/demo.gif)![qcode1.png](./v1.2.2/src/images/qcode1.png)<br/> <br/>
 ## demo地址: <a href="https://gtdalp.github.io/widget/listloading/demos/listloading.html">https://gtdalp.github.io/widget/listloading/demos/listloading.html</a>
 
 
