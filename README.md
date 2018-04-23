@@ -233,3 +233,8 @@ listloading
 
 ### 欢迎贡献你的代码
 在这里特别感谢 [microlv](https://github.com/microlv) 的技术支持和代码贡献
+
+### License
+Copyright (c) gtdalp. All rights reserved.
+
+Licensed under the MIT License.
